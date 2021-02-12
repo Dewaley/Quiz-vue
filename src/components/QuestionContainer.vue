@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen flex justify-center items-center">
-    <div class="text-center w-2/5 bg-gray-300 p-5">
+    <div class="text-center w-2/5 bg-gray-300 p-5 md:w-2/4 sm:w-">
       <div class="p-1 border-b-2 text-xl">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto qui
         blanditiis adipisci hic possimus assumenda molestiae tempora nisi
@@ -29,8 +29,25 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios,axios)
+
 export default {
   name: 'QuestionContainer',
   props: {},
+  data() {
+   return {
+    questions: []
+   }
+  },
+  mounted: function() {
+   Vue.axios.get('https://opentdb.com/api.php?amount=10&category=19&difficulty=medium&type=multiple')
+   .then((res)=> {
+    this.questions=res.data.results
+    console.log(this.questions);
+   })
+  }
 }
 </script>
