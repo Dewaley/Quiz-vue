@@ -1,9 +1,13 @@
 <template>
   <div id="app" class="font-nunito overflow-hidden">
-    <Header />
+    <Header 
+      :numCorrect="numCorrect"
+      :numTotal="numTotal"
+    />
     <QuestionContainer
       :currentQuestion="questions[index]"
       :next="next"
+      :increment="increment"
       v-if="questions.length"
     />
   </div>
@@ -27,12 +31,20 @@ export default {
     return {
       questions: [],
       index: 0,
+      numCorrect: 0,
+      numTotal: 0,
     }
   },
   methods: {
     next() {
       this.index++
     },
+    increment(isCorrect) {
+      if(isCorrect) {
+        this.numCorrect++
+      }
+      this.numTotal++
+    }
   },
   mounted() {
     Vue.axios
