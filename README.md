@@ -1,5 +1,4 @@
-# weather
-
+# Quiz app
 ## Project setup
 ```
 npm install
@@ -22,3 +21,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Netlify hosting
+See 'https://competent-colden-ea5b2a.netlify.app/'
