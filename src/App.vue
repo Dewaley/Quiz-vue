@@ -38,6 +38,7 @@ export default {
   methods: {
     next() {
       this.index++
+      this.increment()
     },
     increment(isCorrect) {
       if(isCorrect) {

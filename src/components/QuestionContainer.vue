@@ -8,11 +8,12 @@
       </div>
       <div class="m-4">
         <div
+          id="answer"
           class="bg-white p-2 border border-gray-300 cursor-pointer hover:bg-green-50"
           v-for="(answer, index) in answers"
           :key="index"
-          @click="selectedanswer(index)"
-          :class="[selectedindex === index ? 'bg-green-100' : '']"
+          @click="selectedanswer(answer)"
+          
         >
           {{ answer }}
         </div>
@@ -42,8 +43,8 @@ export default {
   name: 'QuestionContainer',
   data() {
     return {
-      selectedindex: null,
-      correctindex: null,
+      selectedOption: null,
+      correctAnswer: null,
       shuffledAnswers: [],
     }
   },
@@ -56,22 +57,28 @@ export default {
     currentQuestion: {
       immediate: true,
       handler() {
-        this.selectedindex = null
+        this.selectedOption = null
+        this.correctAnswer = null
         this.shuffleAnswers()
       },
     },
   },
   methods: {
-    selectedanswer(index) {
-      this.selectedindex = index
-      this.correctindex = this.answers.indexOf(this.correct_answer)
-      console.log(this.correctindex)
+    selectedanswer(answer) {
+      this.selectedOption = answer
     },
     submitAnswer() {
       let isCorrect = false
-
-      if (this.selectedindex === this.correctindex) {
+      this.correctAnswer = this.currentQuestion.correct_answer
+      if(this.selectedOption == null) {
+        alert('Please select an answer')
+      }
+      if (this.selectedOption === this.correctAnswer) {
         isCorrect = true
+        this.next()
+      }
+      if (this.selectedOption !== this.correctAnswer) {
+        this.next()
       }
       this.increment(isCorrect)
     },
@@ -81,13 +88,12 @@ export default {
         this.currentQuestion.correct_answer,
       ]
       this.shuffledAnswers = _.shuffle(answers)
-    },
+    }
   },
   computed: {
     answers() {
       let answers = [...this.currentQuestion.incorrect_answers]
       answers.push(this.currentQuestion.correct_answer)
-      console.log(answers)
       return answers
     },
   },
